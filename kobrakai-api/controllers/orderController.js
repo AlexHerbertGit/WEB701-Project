@@ -44,7 +44,7 @@ exports.updateOrderStatus = async (req, res) => {
             { status: req.body.status },
             { new: true}
         );
-        update ? res.json(updated) : res.status(404).json({ message: 'Order not found.' });
+        updated ? res.json(updated) : res.status(404).json({ message: 'Order not found.' });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

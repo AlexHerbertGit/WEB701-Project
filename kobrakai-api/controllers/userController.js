@@ -26,12 +26,23 @@ exports.getUserById = async (req, res) => {
 //UPDATE
 exports.updateUser = async (req, res) => {
     try {
-        const updated = await User.findUserByIdAndUpdate(req.params.id, req.body, { new: true });
-        updated ? res.json(updated) : res.status(404).json({ message: 'User not found' });
+      const { id } = req.params;
+      const updates = req.body;
+  
+      const updated = await User.findByIdAndUpdate(id, updates, {
+        new: true,          // return the updated doc
+        runValidators: true // validate against schema
+      });
+  
+      if (!updated) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json(updated);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+      res.status(400).json({ error: err.message });
     }
-};
+  };
 
 //DELETE
 exports.deleteUser = async (req, res) => {

@@ -7,7 +7,7 @@ exports.createMeal = async (req, res) => {
     try {
         const meal = new Meal(req.body);
         const savedMeal = await meal.save();
-        res.status(201)/json(savedMeal);
+        res.status(201).json(savedMeal);
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -37,7 +37,7 @@ exports.getMealById = async (req, res) => {
 // UPDATE
 exports.updateMeal = async (req, res) => {
     try {
-        await Meal.findByIdAndUpdate(req.params.id, req.body, { new: true});
+        const updated = await Meal.findByIdAndUpdate(req.params.id, req.body, { new: true});
         updated ? res.json(updated) : res.status(404).json({ message: "Meal not found" });
     } catch (err) {
         res.status(400).json({ error: err.message });
